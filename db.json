@@ -13,8 +13,8 @@
       "reminder": true
     },
     {
-      "text": "take test",
-      "day": "monday",
+      "text": "this is test task",
+      "day": "idk",
       "reminder": true,
       "id": 3
     }

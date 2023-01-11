@@ -1,12 +1,10 @@
-import React from 'react';
-
-const Footer = () => {
+function Footer() {
   return (
     <footer>
       <p>Copyright &copy; 2022</p>
-      <a href="/about">About</a>
+      <a href='/about'>About</a>
     </footer>
   );
-};
+}
 
 export default Footer;

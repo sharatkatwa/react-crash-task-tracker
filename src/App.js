@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import {
+  BrowserRouter,
+  createBrowserRouter,
+  RouterProvider,
+} from 'react-router-dom';
 import Header from './components/Header';
 import Tasks from './components/Tasks';
 import AddTask from './components/AddTask';
 import Footer from './components/Footer';
 import About from './components/About';
 
-function App() {
+const App = () => {
   const [showAddTask, setShowAddtask] = useState(false);
-
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
@@ -75,38 +78,47 @@ function App() {
     );
   };
 
+  // router
+  const router = createBrowserRouter([
+    {
+      path: '/',
+      element: (
+        <>
+          {showAddTask && <AddTask onAdd={addTask} />}
+          {tasks.length > 0 ? (
+            <Tasks
+              tasks={tasks}
+              onDelete={deleteTask}
+              onToggle={toggleReminder}
+            />
+          ) : (
+            'No Tasks To Show'
+          )}
+        </>
+      ),
+    },
+    {
+      path: '/about',
+      element: <About />,
+    },
+  ]);
+
   return (
-    <Router>
-      <div className="container">
+    <div className='container'>
+      <BrowserRouter>
         <Header
           onAdd={() => setShowAddtask(!showAddTask)}
           showAdd={showAddTask}
-          title="Task Tracker"
+          title='Task Tracker'
         />
+      </BrowserRouter>
 
-        <Route
-          path="/"
-          exact
-          render={(props) => (
-            <>
-              {showAddTask && <AddTask onAdd={addTask} />}
-              {tasks.length > 0 ? (
-                <Tasks
-                  tasks={tasks}
-                  onDelete={deleteTask}
-                  onToggle={toggleReminder}
-                />
-              ) : (
-                <center>No Tasks To Show</center>
-              )}
-            </>
-          )}
-        />
-        <Route path="/about" component={About} />
+      <RouterProvider router={router} />
+      <BrowserRouter>
         <Footer />
-      </div>
-    </Router>
+      </BrowserRouter>
+    </div>
   );
-}
+};
 
 export default App;
